@@ -316,7 +316,7 @@ export const LogoContainer = styled("div")({
   boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", // Optional shadow for depth
   margin: "50px",
   width: "100%",
-  maxWidth: "1000px", // Maximum size for the container
+  maxWidth: "800px", // Maximum size for the container
 });
 
 export const LogoImage = styled("img")({

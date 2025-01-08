@@ -15,7 +15,8 @@ export const GAME_BGM = "https://fiesta-media.s3.amazonaws.com/game-bgm.mp3";
 export const TICK_SOUND_VOL = 0.1;
 export const TIMES_UP_SOUND_VOL = 0.6;
 
-export const GAME_SESSION_API_KEY = "JjfGcZXhD22Xcouf3Mi7H2c6G8Lk7ugv90xNxLQL";
+export const GOOGLE_LOGO =
+  "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg";
 
 export const MOCK_WORD_PAIR = [
   {
