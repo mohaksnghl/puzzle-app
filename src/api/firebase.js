@@ -22,6 +22,8 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
+  console.log("Firebase API Key:", process.env.REACT_APP_FIREBASE_API_KEY);
+
   try {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
