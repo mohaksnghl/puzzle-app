@@ -17,6 +17,7 @@ import logo from "./assets/logo-image.png"; // Path to your PNG
 import GameScreen from "./GameScreen";
 import { startGame } from "./api/GameSessionAPI";
 import { signInWithGoogle, logout } from "./api/firebase";
+import Colors from "./colors";
 
 // Create a global reference for BGM
 let bgmAudio;
@@ -125,10 +126,8 @@ const MainScreen = () => {
             padding: "12px 20px",
             fontSize: "1rem",
             fontWeight: "bold",
-            color: "#2b2f3a",
-            backgroundColor: user ? "#e0f7fa" : "#fff",
+            color: Colors.primary,
             borderRadius: "30px",
-            border: "2px solid #61dafb",
             cursor: "pointer",
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
             textTransform: "none",
@@ -168,7 +167,7 @@ const MainScreen = () => {
                 style={{
                   marginTop: "4px", // Minimal gap between main text and subtext
                   fontSize: "0.8rem", // Smaller font for subtext
-                  color: "#757575", // Subtle text color for subtext
+                  color: Colors.darkGray, // Subtle text color for subtext
                 }}
               >
                 Click to Logout
@@ -210,10 +209,9 @@ const MainScreen = () => {
               width: "80%",
               maxWidth: "400px",
               fontSize: "1.2rem",
-              border: "2px solid #5f6672",
-              borderRadius: "5px",
-              backgroundColor: "#eaeaea",
-              color: "#2b2f3a",
+              outline: "none", // Remove default browser focus outline
+              boxShadow: "none", // Remove any box-shadow on focus
+              color: Colors.primary,
             }}
           />
         )}
@@ -225,16 +223,15 @@ const MainScreen = () => {
           style={{
             padding: "15px 30px",
             fontSize: "1.2rem",
-            fontWeight: "bold",
+
             textTransform: "none",
-            backgroundColor: name.trim() ? "#61dafb" : "#b0bec5",
-            color: "#2b2f3a",
+            backgroundColor: name.trim()
+              ? Colors.primary
+              : Colors.backgroundMain,
+            color: name.trim() ? Colors.backgroundMain : Colors.primary, // Change text color for outlined button
             borderRadius: "30px",
-            border: "none",
             cursor: name.trim() ? "pointer" : "not-allowed",
-            boxShadow: name.trim()
-              ? "0 4px 10px rgba(97, 218, 251, 0.4)"
-              : "none",
+            border: `4px solid ${Colors.primary}`,
           }}
         >
           {user ? "Start Game" : "Play as Guest"}

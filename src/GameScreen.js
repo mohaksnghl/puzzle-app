@@ -29,6 +29,7 @@ import {
 } from "./constants";
 import { Button, Typography, Box } from "@mui/material";
 import { startGame, endGame } from "./api/GameSessionAPI";
+import Colors from "./colors";
 
 const GameScreen = ({
   name,
@@ -41,8 +42,8 @@ const GameScreen = ({
 }) => {
   const [inputWord1, setInputWord1] = useState(Array(word1.length).fill(""));
   const [inputWord2, setInputWord2] = useState(Array(word2.length).fill(""));
-  const [light1Color, setLight1Color] = useState("red");
-  const [light2Color, setLight2Color] = useState("red");
+  const [light1Color, setLight1Color] = useState(Colors.red);
+  const [light2Color, setLight2Color] = useState(Colors.red);
   const [score, setScore] = useState(0);
   const tickingSoundRef = useRef(null);
   const timesUpSoundRef = useRef(null);
@@ -111,25 +112,25 @@ const GameScreen = ({
     const currentWord2 = inputWord2.join("").toUpperCase();
 
     if (currentWord1 === word1.toUpperCase()) {
-      setLight1Color("green");
+      setLight1Color(Colors.green);
       if (!isSound1Played) {
         const audio = new Audio(CORRECT_WORD_SOUND); // Adjust the path to your sound file
         audio.play();
         setIsSound1Played(true);
       }
     } else {
-      setLight1Color("red");
+      setLight1Color(Colors.red);
     }
 
     if (currentWord2 === word2.toUpperCase()) {
-      setLight2Color("green");
+      setLight2Color(Colors.green);
       if (!isSound2Played) {
         const audio = new Audio(CORRECT_WORD_SOUND); // Adjust the path to your sound file
         audio.play();
         setIsSound2Played(true);
       }
     } else {
-      setLight2Color("red");
+      setLight2Color(Colors.red);
     }
 
     if (
@@ -160,8 +161,8 @@ const GameScreen = ({
   useEffect(() => {
     setInputWord1(Array(word1.length).fill(""));
     setInputWord2(Array(word2.length).fill(""));
-    setLight1Color("red");
-    setLight2Color("red");
+    setLight1Color(Colors.red);
+    setLight2Color(Colors.red);
     setIsSound1Played(false);
     setIsSound2Played(false);
     setTimeout(() => {
@@ -246,9 +247,7 @@ const GameScreen = ({
 
   const gameOverDialog = (
     <StyledDialog open={isGameOver} onClose={handleRestart}>
-      <DialogTitleStyled
-        style={{ fontSize: "2rem", textAlign: "center", color: "#ff5252" }}
-      >
+      <DialogTitleStyled style={{ fontSize: "2rem", textAlign: "center" }}>
         🎮 Game Over 🎮
       </DialogTitleStyled>
       <DialogContentStyled style={{ padding: "20px", textAlign: "center" }}>
@@ -256,20 +255,15 @@ const GameScreen = ({
           style={{
             marginBottom: "15px",
             fontSize: "1.6rem",
-            color: "#61dafb",
           }}
         >
-          <strong> 🎉 Your Score:</strong>{" "}
-          <strong style={{ color: "#ffd700", fontSize: "2rem" }}>
-            {score}
-          </strong>
+          <strong> 🎉 Your Score:</strong> <strong>{score}</strong>
           <strong> 🎉 </strong>{" "}
         </Typography>
         <Typography
           style={{
             marginBottom: "20px",
             fontSize: "1.4rem",
-            color: "#eaeaea",
           }}
         >
           <strong>Correct Answers</strong>
@@ -280,7 +274,7 @@ const GameScreen = ({
             margin: "0 auto",
             padding: "20px",
             borderRadius: "10px",
-            backgroundColor: "#1e293b",
+            backgroundColor: Colors.primary,
             boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
             maxWidth: "450px",
           }}
@@ -289,7 +283,8 @@ const GameScreen = ({
             style={{
               marginBottom: "15px",
               padding: "10px",
-              backgroundColor: "#2b2f3a",
+              backgroundColor: Colors.backgroundMain,
+              color: Colors.primary,
               borderRadius: "8px",
               display: "flex",
               flexDirection: "column",
@@ -297,9 +292,7 @@ const GameScreen = ({
           >
             <Typography
               style={{
-                fontSize: "1.4rem",
-                color: "#ffffff",
-                fontStyle: "italic",
+                fontSize: "1.2rem",
                 marginBottom: "10px",
               }}
             >
@@ -308,14 +301,11 @@ const GameScreen = ({
             <Typography
               style={{
                 fontSize: "1.2rem",
-                color: "#4caf50",
+
                 fontWeight: "bold",
               }}
             >
-              Answer:{" "}
-              <span style={{ fontSize: "1.6rem", color: "#61dafb" }}>
-                {word1}
-              </span>
+              <span>{word1}</span>
             </Typography>
           </Box>
 
@@ -323,7 +313,8 @@ const GameScreen = ({
             style={{
               marginBottom: "15px",
               padding: "10px",
-              backgroundColor: "#2b2f3a",
+              backgroundColor: Colors.backgroundMain,
+              color: Colors.primary,
               borderRadius: "8px",
               display: "flex",
               flexDirection: "column",
@@ -331,9 +322,8 @@ const GameScreen = ({
           >
             <Typography
               style={{
-                fontSize: "1.4rem",
-                color: "#ffffff",
-                fontStyle: "italic",
+                fontSize: "1.2rem",
+
                 marginBottom: "10px",
               }}
             >
@@ -342,14 +332,10 @@ const GameScreen = ({
             <Typography
               style={{
                 fontSize: "1.2rem",
-                color: "#4caf50",
                 fontWeight: "bold",
               }}
             >
-              Answer:{" "}
-              <span style={{ fontSize: "1.6rem", color: "#61dafb" }}>
-                {word2}
-              </span>
+              <span>{word2}</span>
             </Typography>
           </Box>
         </Box>
@@ -361,14 +347,10 @@ const GameScreen = ({
           onClick={handleRestart}
           variant="contained"
           style={{
-            backgroundColor: "#61dafb",
-            color: "#2b2f3a",
             fontSize: "1.2rem",
-            fontWeight: "bold",
             padding: "10px 30px",
             borderRadius: "50px",
             textTransform: "uppercase",
-            boxShadow: "0 4px 10px rgba(97, 218, 251, 0.4)",
           }}
         >
           Restart Game
@@ -492,13 +474,12 @@ const GameScreen = ({
         </LetterInput>
         <Button
           onClick={handleReveal}
-          variant="contained"
-          color="secondary"
           style={{
             marginTop: "20px",
-            backgroundColor: "#ff5722",
-            color: "#ffffff",
+            backgroundColor: Colors.backgroundMain,
+            color: Colors.primary,
             fontWeight: "bold",
+            border: `2px solid ${Colors.primary}`,
           }}
         >
           Reveal Answers
