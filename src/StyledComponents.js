@@ -76,7 +76,7 @@ export const Title = styled(Typography)(({ theme }) => ({
 }));
 
 export const HintText = styled(Typography)(({ theme }) => ({
-  fontSize: "1.2rem",
+  fontSize: "1.8rem",
   fontWeight: "600",
   color: Colors.backgroundMain,
   padding: "8px 12px",

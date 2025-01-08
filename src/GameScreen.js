@@ -69,6 +69,14 @@ const GameScreen = ({
       timesUpSoundRef.current.volume = 1.0; // Full volume for time's up
     }
 
+    if (isGameOver) {
+      if (tickingSoundRef.current) {
+        tickingSoundRef.current.pause();
+        tickingSoundRef.current.currentTime = 0;
+      }
+      return;
+    }
+
     if (timeLeft > 0) {
       if (tickingSoundRef.current.paused) {
         tickingSoundRef.current.play().catch((error) => {
@@ -243,6 +251,11 @@ const GameScreen = ({
       setInputWord1(Array(word1.length).fill("")); // Clear input boxes
       setInputWord2(Array(word2.length).fill("")); // Clear input boxes
     }, 1000);
+  };
+
+  const handleEndGame = () => {
+    endGame(localStorage.getItem("sessionId"), userId, score);
+    setIsGameOver(true);
   };
 
   const gameOverDialog = (
@@ -483,6 +496,18 @@ const GameScreen = ({
           }}
         >
           Reveal Answers
+        </Button>
+        <Button
+          onClick={handleEndGame}
+          style={{
+            marginTop: "20px",
+            backgroundColor: Colors.primary,
+            color: Colors.backgroundMain,
+            fontWeight: "bold",
+            border: `2px solid ${Colors.primary}`,
+          }}
+        >
+          End Game
         </Button>
         {gameOverDialog}
       </MainContainer>
