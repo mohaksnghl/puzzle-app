@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Typography, Box } from "@mui/material";
-import { MOCK_WORD_PAIR, GOOGLE_LOGO } from "./constants";
+import { MOCK_WORD_PAIR, GOOGLE_LOGO, GAME_BGM } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -18,6 +18,9 @@ import GameScreen from "./GameScreen";
 import { startGame } from "./api/GameSessionAPI";
 import { signInWithGoogle, logout } from "./api/firebase";
 
+// Create a global reference for BGM
+let bgmAudio;
+
 const MainScreen = () => {
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState("");
@@ -27,6 +30,7 @@ const MainScreen = () => {
   const [hint2, setHint2] = useState("");
   const [word1, setWord1] = useState("");
   const [word2, setWord2] = useState("");
+  const bgmRef = useRef(null);
 
   const handleGoogleLogin = async () => {
     try {
@@ -65,6 +69,33 @@ const MainScreen = () => {
     refreshWords();
     setGameStarted(true);
   };
+
+  useEffect(() => {
+    if (!bgmAudio) {
+      // Initialize the BGM only once
+      bgmAudio = new Audio(GAME_BGM);
+      bgmAudio.loop = true;
+      bgmAudio.volume = 0.5; // Default volume for Main Screen
+      bgmAudio.play().catch((error) => {
+        console.error("Error playing BGM:", error);
+      });
+    }
+
+    if (gameStarted) {
+      // Lower volume when transitioning to the Game Screen
+      bgmAudio.volume = 0.1; // Lower volume
+    } else {
+      // Restore volume when returning to the Main Screen
+      bgmAudio.volume = 0.5; // Restore default volume
+    }
+
+    return () => {
+      // Optional cleanup logic
+      if (bgmAudio && !gameStarted) {
+        bgmAudio.volume = 0.5; // Reset volume to default if needed
+      }
+    };
+  }, [gameStarted]); // Triggered only when gameStarted changes
 
   return gameStarted ? (
     <GameScreen
