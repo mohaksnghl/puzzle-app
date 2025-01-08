@@ -26,20 +26,20 @@ import {
   TIME_BONUS,
   TIMES_UP_SOUND,
   CLOCK_TICK_SOUND,
+  MOCK_WORD_PAIR,
 } from "./constants";
 import { Button, Typography, Box } from "@mui/material";
 import { startGame, endGame } from "./api/GameSessionAPI";
 import Colors from "./colors";
+import { useLocation, useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import IconButton from "@mui/material/IconButton";
 
-const GameScreen = ({
-  name,
-  userId,
-  hint1,
-  hint2,
-  word1,
-  word2,
-  refreshWords,
-}) => {
+const GameScreen = () => {
+  const [hint1, setHint1] = useState("");
+  const [hint2, setHint2] = useState("");
+  const [word1, setWord1] = useState(" ");
+  const [word2, setWord2] = useState(" ");
   const [inputWord1, setInputWord1] = useState(Array(word1.length).fill(""));
   const [inputWord2, setInputWord2] = useState(Array(word2.length).fill(""));
   const [light1Color, setLight1Color] = useState(Colors.red);
@@ -55,6 +55,31 @@ const GameScreen = ({
   const [revealing, setRevealing] = useState(false);
   const [bonusTime, setBonusTime] = useState(0);
   const [scoreIncrement, setScoreIncrement] = useState(0);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { name, userId } = location.state || {};
+
+  // Redirect if there's no name or userId
+  useEffect(() => {
+    if (!name || !userId) {
+      navigate("/");
+    }
+  }, [name, userId, navigate]);
+
+  const refreshWords = () => {
+    const randomPair =
+      MOCK_WORD_PAIR[Math.floor(Math.random() * MOCK_WORD_PAIR.length)];
+    setHint1(randomPair.hint1);
+    setWord1(randomPair.word1);
+    setHint2(randomPair.hint2);
+    setWord2(randomPair.word2);
+  };
+
+  useEffect(() => {
+    refreshWords();
+    // eslint-disable-next-line
+  }, []); // run once on mount
 
   useEffect(() => {
     // Initialize the ticking sound
@@ -163,7 +188,7 @@ const GameScreen = ({
         setInputWord2(Array(word2.length).fill(""));
       }, 1000); // Refresh words after a short delay
     }
-  }, [inputWord1, inputWord2, word1, word2, refreshWords]);
+  }, [inputWord1, inputWord2, word1, word2]);
 
   // Dynamically update letter boxes when word lengths change
   useEffect(() => {
@@ -262,6 +287,18 @@ const GameScreen = ({
     <StyledDialog open={isGameOver} onClose={handleRestart}>
       <DialogTitleStyled style={{ fontSize: "2rem", textAlign: "center" }}>
         🎮 Game Over 🎮
+        <IconButton
+          onClick={() => navigate("/")} // Adjust path as needed
+          style={{
+            position: "absolute",
+            left: 16,
+            top: 16,
+            color: Colors.primary,
+            backgroundColor: Colors.backgroundMain,
+          }}
+        >
+          <HomeIcon sx={{ fontSize: 36 }} />
+        </IconButton>
       </DialogTitleStyled>
       <DialogContentStyled style={{ padding: "20px", textAlign: "center" }}>
         <Typography
@@ -389,126 +426,129 @@ const GameScreen = ({
         </ScoreDisplay>{" "}
         <Title>Welcome, {name}!</Title>
         <SubTitle>Can you guess both words?</SubTitle>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          marginBottom="1rem"
-        >
-          <HintText>{hint1}</HintText>
-        </Box>
-        <LetterInput>
-          {inputWord1.map((letter, index) => (
-            <LetterBox
-              key={index}
-              id={`letter-${index}-1`}
-              value={letter}
-              onKeyDown={
-                (e) => {
-                  if (
-                    ["ArrowLeft", "ArrowRight", "Tab"].includes(e.key) ||
-                    (e.key === "Tab" && e.shiftKey)
-                  ) {
-                    e.preventDefault();
-                  }
+        <Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginBottom="1rem"
+          >
+            <HintText>{hint1}</HintText>
+          </Box>
+          <LetterInput>
+            {inputWord1.map((letter, index) => (
+              <LetterBox
+                key={index}
+                id={`letter-${index}-1`}
+                value={letter}
+                onKeyDown={
+                  (e) => {
+                    if (
+                      ["ArrowLeft", "ArrowRight", "Tab"].includes(e.key) ||
+                      (e.key === "Tab" && e.shiftKey)
+                    ) {
+                      e.preventDefault();
+                    }
+                    handleInputChange(
+                      "",
+                      index,
+                      setInputWord1,
+                      inputWord1,
+                      word1,
+                      "2",
+                      e
+                    );
+                  } // For Backspace
+                }
+                onChange={(e) =>
                   handleInputChange(
-                    "",
+                    e.target.value,
                     index,
                     setInputWord1,
                     inputWord1,
                     word1,
                     "2",
                     e
-                  );
-                } // For Backspace
-              }
-              onChange={(e) =>
-                handleInputChange(
-                  e.target.value,
-                  index,
-                  setInputWord1,
-                  inputWord1,
-                  word1,
-                  "2",
-                  e
-                )
-              }
-            />
-          ))}
-          <LightIndicator color={light1Color} />
-        </LetterInput>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          marginBottom="1rem"
-        >
-          <HintText>{hint2}</HintText>
-        </Box>
-        <LetterInput>
-          {inputWord2.map((letter, index) => (
-            <LetterBox
-              key={index}
-              id={`letter-${index}-2`}
-              value={letter}
-              onKeyDown={
-                (e) => {
-                  if (
-                    ["ArrowLeft", "ArrowRight", "Tab"].includes(e.key) ||
-                    (e.key === "Tab" && e.shiftKey)
-                  ) {
-                    e.preventDefault();
-                  }
+                  )
+                }
+              />
+            ))}
+            <LightIndicator color={light1Color} />
+          </LetterInput>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginBottom="1rem"
+          >
+            <HintText>{hint2}</HintText>
+          </Box>
+          <LetterInput>
+            {inputWord2.map((letter, index) => (
+              <LetterBox
+                key={index}
+                id={`letter-${index}-2`}
+                value={letter}
+                onKeyDown={
+                  (e) => {
+                    if (
+                      ["ArrowLeft", "ArrowRight", "Tab"].includes(e.key) ||
+                      (e.key === "Tab" && e.shiftKey)
+                    ) {
+                      e.preventDefault();
+                    }
+                    handleInputChange(
+                      "",
+                      index,
+                      setInputWord2,
+                      inputWord2,
+                      word2,
+                      null,
+                      e
+                    );
+                  } // For Backspace
+                }
+                onChange={(e) =>
                   handleInputChange(
-                    "",
+                    e.target.value,
                     index,
                     setInputWord2,
                     inputWord2,
                     word2,
                     null,
                     e
-                  );
-                } // For Backspace
-              }
-              onChange={(e) =>
-                handleInputChange(
-                  e.target.value,
-                  index,
-                  setInputWord2,
-                  inputWord2,
-                  word2,
-                  null,
-                  e
-                )
-              }
-            />
-          ))}
-          <LightIndicator color={light2Color} />
-        </LetterInput>
-        <Button
-          onClick={handleReveal}
-          style={{
-            marginTop: "20px",
-            backgroundColor: Colors.backgroundMain,
-            color: Colors.primary,
-            fontWeight: "bold",
-            border: `2px solid ${Colors.primary}`,
-          }}
-        >
-          Reveal Answers
-        </Button>
-        <Button
-          onClick={handleEndGame}
-          style={{
-            marginTop: "20px",
-            backgroundColor: Colors.primary,
-            color: Colors.backgroundMain,
-            fontWeight: "bold",
-            border: `2px solid ${Colors.primary}`,
-          }}
-        >
-          End Game
-        </Button>
+                  )
+                }
+              />
+            ))}
+            <LightIndicator color={light2Color} />
+          </LetterInput>
+          <Button
+            onClick={handleReveal}
+            style={{
+              marginTop: "20px",
+              backgroundColor: Colors.backgroundMain,
+              color: Colors.primary,
+              fontWeight: "bold",
+              border: `2px solid ${Colors.primary}`,
+            }}
+          >
+            Reveal Answers
+          </Button>
+          <Button
+            onClick={handleEndGame}
+            style={{
+              marginTop: "20px",
+              marginLeft: "10px",
+              backgroundColor: Colors.primary,
+              color: Colors.backgroundMain,
+              fontWeight: "bold",
+              border: `2px solid ${Colors.primary}`,
+            }}
+          >
+            End Game
+          </Button>
+        </Box>
         {gameOverDialog}
       </MainContainer>
     </FadeContainer>
