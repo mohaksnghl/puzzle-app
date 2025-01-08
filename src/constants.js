@@ -11,8 +11,11 @@ export const CORRECT_ANSWER_SOUND =
   "https://fiesta-media.s3.amazonaws.com/correct-answer.mp3";
 export const CORRECT_WORD_SOUND =
   "https://fiesta-media.s3.amazonaws.com/correct-word.mp3";
+export const GAME_BGM = "https://fiesta-media.s3.amazonaws.com/game-bgm.mp3";
 export const TICK_SOUND_VOL = 0.1;
 export const TIMES_UP_SOUND_VOL = 0.6;
+
+export const GAME_SESSION_API_KEY = "JjfGcZXhD22Xcouf3Mi7H2c6G8Lk7ugv90xNxLQL";
 
 export const MOCK_WORD_PAIR = [
   {
@@ -423,5 +426,95 @@ export const MOCK_WORD_PAIR = [
     word1: "TREND",
     hint2: "Very fashionable or up to date",
     word2: "TRENDY",
+  },
+  {
+    hint1: "A young bear",
+    word1: "CUB",
+    hint2: "A social group or heavy striking weapon",
+    word2: "CLUB",
+  },
+  {
+    hint1: "Stony waste from metal smelting",
+    word1: "SLAG",
+    hint2: "Informal, nonstandard language",
+    word2: "SLANG",
+  },
+  {
+    hint1: "Past tense of 'breed'",
+    word1: "BRED",
+    hint2: "To produce offspring",
+    word2: "BREED",
+  },
+  {
+    hint1: "A moving ridge on water or a hand gesture",
+    word1: "WAVE",
+    hint2: "To be indecisive or fluctuate",
+    word2: "WAVER",
+  },
+  {
+    hint1: "To walk on or along",
+    word1: "TREAD",
+    hint2: "A thin strand of fiber or a sequence of posts",
+    word2: "THREAD",
+  },
+  {
+    hint1: "An all-night dance party or to speak wildly",
+    word1: "RAVE",
+    hint2: "To have a strong desire for",
+    word2: "CRAVE",
+  },
+  {
+    hint1: "A rigid organ in the skeleton",
+    word1: "BONE",
+    hint2: "Having had bones removed (as from meat)",
+    word2: "BONED",
+  },
+  {
+    hint1: "A position or surface to one side",
+    word1: "SIDE",
+    hint2: "A remark that isn’t the main focus or topic",
+    word2: "ASIDE",
+  },
+  {
+    hint1: "To repair or fix",
+    word1: "MEND",
+    hint2: "To make minor changes to a document or law",
+    word2: "AMEND",
+  },
+  {
+    hint1: "To smile broadly",
+    word1: "GRIN",
+    hint2: "To crush into small particles or work laboriously",
+    word2: "GRIND",
+  },
+  {
+    hint1: "An inclined plane or slope",
+    word1: "RAMP",
+    hint2: "A painful, involuntary muscle contraction",
+    word2: "CRAMP",
+  },
+  {
+    hint1: "The central part (of an object or fruit)",
+    word1: "CORE",
+    hint2: "A tally of points or a musical piece",
+    word2: "SCORE",
+  },
+  {
+    hint1: "To pester or bother",
+    word1: "NAG",
+    hint2: "A small hitch, tear, or unexpected obstacle",
+    word2: "SNAG",
+  },
+  {
+    hint1: "An area within a building",
+    word1: "ROOM",
+    hint2: "A cleaning tool made of bundled bristles",
+    word2: "BROOM",
+  },
+  {
+    hint1: "A loose-fitting garment",
+    word1: "ROBE",
+    hint2: "To investigate deeply or explore thoroughly",
+    word2: "PROBE",
   },
 ];

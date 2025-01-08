@@ -23,6 +23,7 @@ export const MainContainer = styled(Container)(({ theme }) => ({
   padding: "20px",
   borderRadius: "10px",
   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  overflow: "auto",
 }));
 
 export const FadeContainer = styled(Box)(({ theme }) => ({
@@ -313,14 +314,14 @@ export const LogoContainer = styled("div")({
   background: "linear-gradient(135deg, #f9f9f9, #e0e0e0)", // Optional gradient
   borderRadius: "20px", // Rounded corners for the container
   boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", // Optional shadow for depth
-  margin: "10px",
+  margin: "50px",
   width: "100%",
-  maxWidth: "800px", // Maximum size for the container
+  maxWidth: "1000px", // Maximum size for the container
 });
 
 export const LogoImage = styled("img")({
   width: "100%", // Fill the container
-  maxWidth: "800px", // Set a maximum size for the logo
+  //   maxWidth: "800px", // Set a maximum size for the logo
   height: "auto", // Maintain aspect ratio
   borderRadius: "15px", // Rounded edges for the logo itself
 });
