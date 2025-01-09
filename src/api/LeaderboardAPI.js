@@ -7,11 +7,16 @@ export const getLeaderboardData = async () => {
   // return data;
 
   // Mock data:
-  return [
-    { name: "Alice", score: 10 },
-    { name: "Bob", score: 8 },
-    { name: "Charlie", score: 6 },
-  ];
+  try {
+    const response = await axios.get(
+      `https://3prhrhpquc.execute-api.us-east-1.amazonaws.com/leaderboard?action=leaderboard`
+    );
+    console.log("API Response:", response.data);
+    return response.data.leaderboard || [];
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    return [];
+  }
 };
 
 export const fetchHighScore = async (userId) => {

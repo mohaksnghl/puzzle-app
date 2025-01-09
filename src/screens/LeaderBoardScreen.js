@@ -90,7 +90,7 @@ function LeaderboardScreen() {
             {leaders.map((player, index) => (
               <TableRowStyled key={player.userId || index}>
                 <TableCellStyled>{index + 1}</TableCellStyled>
-                <TableCellStyled>{player.name}</TableCellStyled>
+                <TableCellStyled>{player.playerName}</TableCellStyled>
                 <TableCellStyled>{player.score}</TableCellStyled>
               </TableRowStyled>
             ))}
