@@ -26,7 +26,6 @@ import {
   TIME_BONUS,
   TIMES_UP_SOUND,
   CLOCK_TICK_SOUND,
-  MOCK_WORD_PAIR,
 } from "../constants";
 import { Button, Typography, Box } from "@mui/material";
 import { startGame, endGame } from "../api/GameSessionAPI";
@@ -35,9 +34,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
 import { fetchHighScore } from "../api/LeaderboardAPI";
+import { fetchWordPairs } from "../api/GameAssetsAPI";
 
 const GameScreen = () => {
-  const [highScore, setHighScore] = useState(0); // State for high score
+  const [highScore, setHighScore] = useState(0);
+  const [wordPairs, setWordPairs] = useState([]);
   const [hint1, setHint1] = useState("");
   const [hint2, setHint2] = useState("");
   const [word1, setWord1] = useState(" ");
@@ -84,9 +85,28 @@ const GameScreen = () => {
     }
   }, [userId, navigate]);
 
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent navigation
+      event.preventDefault();
+      event.stopPropagation();
+      window.history.pushState(null, null, window.location.href);
+    };
+
+    // Add an entry to the browser history stack
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for the back button event
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
+
   const refreshWords = () => {
-    const randomPair =
-      MOCK_WORD_PAIR[Math.floor(Math.random() * MOCK_WORD_PAIR.length)];
+    const randomPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
     setHint1(randomPair.hint1);
     setWord1(randomPair.word1);
     setHint2(randomPair.hint2);
@@ -94,9 +114,19 @@ const GameScreen = () => {
   };
 
   useEffect(() => {
-    refreshWords();
-    // eslint-disable-next-line
-  }, []); // run once on mount
+    const loadWordPairs = async () => {
+      const pairs = await fetchWordPairs();
+      setWordPairs(pairs);
+    };
+    loadWordPairs();
+  }, []);
+
+  useEffect(() => {
+    if (wordPairs.length > 0) {
+      console.log(wordPairs);
+      refreshWords(); // Ensure wordPairs is loaded before calling refreshWords
+    }
+  }, [wordPairs]);
 
   useEffect(() => {
     console.log("score " + score);
@@ -484,6 +514,7 @@ const GameScreen = () => {
                 key={index}
                 id={`letter-${index}-1`}
                 value={letter}
+                autoComplete="off"
                 onKeyDown={
                   (e) => {
                     if (
@@ -532,6 +563,7 @@ const GameScreen = () => {
                 key={index}
                 id={`letter-${index}-2`}
                 value={letter}
+                autoComplete="off"
                 onKeyDown={
                   (e) => {
                     if (
