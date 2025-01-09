@@ -7,7 +7,7 @@ import {
   RestartButton,
   FadeContainer,
   DialogTitleStyled,
-  MainContainer,
+  GameContainer,
   TimerDisplay,
   BonusTime,
   ScoreIncrement,
@@ -17,7 +17,7 @@ import {
   LetterInput,
   LetterBox,
   LightIndicator,
-} from "./StyledComponents";
+} from "../StyledComponents";
 
 import {
   CORRECT_ANSWER_SOUND,
@@ -27,15 +27,17 @@ import {
   TIMES_UP_SOUND,
   CLOCK_TICK_SOUND,
   MOCK_WORD_PAIR,
-} from "./constants";
+} from "../constants";
 import { Button, Typography, Box } from "@mui/material";
-import { startGame, endGame } from "./api/GameSessionAPI";
-import Colors from "./colors";
+import { startGame, endGame } from "../api/GameSessionAPI";
+import Colors from "../colors";
 import { useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
+import { fetchHighScore } from "../api/LeaderboardAPI";
 
 const GameScreen = () => {
+  const [highScore, setHighScore] = useState(0); // State for high score
   const [hint1, setHint1] = useState("");
   const [hint2, setHint2] = useState("");
   const [word1, setWord1] = useState(" ");
@@ -51,7 +53,6 @@ const GameScreen = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [isSound1Played, setIsSound1Played] = useState(false);
   const [isSound2Played, setIsSound2Played] = useState(false);
-  const [revealAnswers, setRevealAnswers] = useState(false);
   const [revealing, setRevealing] = useState(false);
   const [bonusTime, setBonusTime] = useState(0);
   const [scoreIncrement, setScoreIncrement] = useState(0);
@@ -61,11 +62,27 @@ const GameScreen = () => {
   const { name, userId } = location.state || {};
 
   // Redirect if there's no name or userId
+  // Fetch high score on mount
   useEffect(() => {
-    if (!name || !userId) {
-      navigate("/");
+    const fetchHighScoreFromAPI = async () => {
+      try {
+        const response = await fetchHighScore(userId);
+        if (response) {
+          setHighScore(response);
+        } else {
+          console.error("No high score found in response:", response);
+        }
+      } catch (error) {
+        console.error("Failed to fetch high score:", error);
+      }
+    };
+
+    if (userId) {
+      fetchHighScoreFromAPI();
+    } else {
+      navigate("/"); // Redirect if no userId
     }
-  }, [name, userId, navigate]);
+  }, [userId, navigate]);
 
   const refreshWords = () => {
     const randomPair =
@@ -80,6 +97,17 @@ const GameScreen = () => {
     refreshWords();
     // eslint-disable-next-line
   }, []); // run once on mount
+
+  useEffect(() => {
+    console.log("score " + score);
+    console.log("highScore " + highScore);
+    if (score > highScore) {
+      console.log("Upadting Highscore");
+      console.log(score);
+      console.log(highScore);
+      setHighScore(score);
+    }
+  }, [score, highScore]);
 
   useEffect(() => {
     // Initialize the ticking sound
@@ -173,7 +201,9 @@ const GameScreen = () => {
     ) {
       const audio = new Audio(CORRECT_ANSWER_SOUND); // Adjust the path to your sound file
       audio.play();
-      setScore((prevScore) => prevScore + 1); // Increment score
+      setScore((prevScore) => {
+        return prevScore + 1;
+      }); // Increment score
       setTimeLeft((prevTime) => prevTime + TIME_BONUS);
 
       setBonusTime(TIME_BONUS); // Trigger animation
@@ -259,7 +289,6 @@ const GameScreen = () => {
     setTimeLeft(INITIAL_TIME);
     setScore(0);
     setIsGameOver(false);
-    setRevealAnswers(false); // Reset reveal answers state
     setRevealing(false); // Reset revealing state
     refreshWords();
   };
@@ -411,11 +440,25 @@ const GameScreen = () => {
 
   return (
     <FadeContainer>
-      <MainContainer>
+      <GameContainer>
         <TimerDisplay>
           Time Left: {timeLeft}s
           {bonusTime > 0 && <BonusTime>+{bonusTime}s</BonusTime>}
         </TimerDisplay>
+        <ScoreDisplay
+          style={{
+            top: "10px",
+            left: "50%",
+            width: "10%",
+            transform: "translateX(-50%)", // Center horizontally
+            fontSize: "1rem",
+            color: Colors.backgroundMain,
+            backgroundColor: Colors.primary,
+            fontWeight: "bold",
+          }}
+        >
+          <div style={{ position: "relative" }}>High Score: {highScore}</div>
+        </ScoreDisplay>
         <ScoreDisplay>
           <div style={{ position: "relative" }}>
             Score: {score}
@@ -550,7 +593,7 @@ const GameScreen = () => {
           </Button>
         </Box>
         {gameOverDialog}
-      </MainContainer>
+      </GameContainer>
     </FadeContainer>
   );
 };

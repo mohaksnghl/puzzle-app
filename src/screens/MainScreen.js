@@ -1,15 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
-import { GOOGLE_LOGO, GAME_BGM } from "./constants";
+import { GOOGLE_LOGO, GAME_BGM } from "../constants";
 import { v4 as uuidv4 } from "uuid";
 
-import { MainContainer, LogoContainer, LogoImage } from "./StyledComponents";
+import { MainContainer, LogoContainer, LogoImage } from "../StyledComponents";
 
-import logo from "./assets/logo-image.png"; // Path to your PNG
-import { startGame } from "./api/GameSessionAPI";
-import { signInWithGoogle, logout } from "./api/firebase";
-import Colors from "./colors";
+import logo from ".././assets/logo-image.png"; // Path to your PNG
+import { startGame } from "../api/GameSessionAPI";
+import { signInWithGoogle, logout } from "../api/firebase";
+import Colors from "../colors";
+import Navbar from "../components/NavBar";
 
 // Create a global reference for BGM
 let bgmAudio;
@@ -17,13 +18,14 @@ let bgmAudio;
 const MainScreen = () => {
   const navigate = useNavigate();
 
+  // State for user auth
   const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState("");
-  const [showOverlay, setShowOverlay] = useState(true); // Show overlay initially
   const [name, setName] = useState("");
-  const [gameStarted, setGameStarted] = useState(false);
 
-  const bgmRef = useRef(null);
+  // Overlay management
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  const [gameStarted, setGameStarted] = useState(false);
 
   const handleGoogleLogin = async () => {
     try {
@@ -48,7 +50,6 @@ const MainScreen = () => {
 
   const handleStartGame = async () => {
     const userId = user ? user.uid : "Guest_" + uuidv4();
-    setUserId(userId);
     await startGame(name, userId);
     setGameStarted(true);
     navigate("/game", { replace: true, state: { name, userId } });
@@ -143,6 +144,7 @@ const MainScreen = () => {
       )}
       {
         <MainContainer>
+          <Navbar />
           <LogoContainer>
             <LogoImage src={logo} alt="Two Words Game Logo" />
           </LogoContainer>
@@ -159,10 +161,11 @@ const MainScreen = () => {
                 padding: "12px 20px",
                 fontSize: "1rem",
                 fontWeight: "bold",
-                color: Colors.primary,
+                color: user ? Colors.backgroundMain : Colors.primary,
                 borderRadius: "30px",
                 cursor: "pointer",
                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                backgroundColor: user ? Colors.primary : Colors.backgroundMain,
                 textTransform: "none",
                 margin: "20px auto",
                 width: "fit-content",
@@ -237,13 +240,16 @@ const MainScreen = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{
-                  marginBottom: "1.5rem",
+                  marginBottom: ".3rem",
                   padding: "10px",
                   width: "80%",
                   maxWidth: "400px",
                   fontSize: "1.2rem",
+                  backgroundColor: Colors.backgroundMain,
+                  border: `2px solid ${Colors.primary}`, // Change border color for outlined button
                   outline: "none", // Remove default browser focus outline
                   boxShadow: "none", // Remove any box-shadow on focus
+                  borderRadius: "10px",
                   color: Colors.primary,
                 }}
               />
@@ -264,7 +270,8 @@ const MainScreen = () => {
                 color: name.trim() ? Colors.backgroundMain : Colors.primary, // Change text color for outlined button
                 borderRadius: "30px",
                 cursor: name.trim() ? "pointer" : "not-allowed",
-                border: `4px solid ${Colors.primary}`,
+                border: `2px solid ${Colors.primary}`,
+                fontWeight: "bold",
               }}
             >
               {user ? "Start Game" : "Play as Guest"}

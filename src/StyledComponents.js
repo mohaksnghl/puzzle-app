@@ -7,6 +7,9 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Table,
+  TableCell,
+  TableRow,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import Colors from "./colors";
@@ -15,15 +18,32 @@ export const MainContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "flex-start", // Align content to the top
+  height: "100vh",
+  textAlign: "center",
+  // position: "relative", // Add relative positioning
+  backgroundColor: Colors.backgroundMain,
+  //   padding: "20px",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  overflow: "auto",
+  width: "100%", // Ensure it spans full width
+  borderRadius: "20px",
+}));
+
+export const GameContainer = styled(Container)(({ theme }) => ({
+  display: "flex",
+  borderRadius: "20px",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center", // Align content to the top
   height: "100vh",
   textAlign: "center",
   position: "relative", // Add relative positioning
   backgroundColor: Colors.backgroundMain,
   //   padding: "20px",
-  borderRadius: "10px",
   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   overflow: "auto",
+  width: "100%", // Ensure it spans full width
 }));
 
 export const FadeContainer = styled(Box)(({ theme }) => ({
@@ -221,11 +241,36 @@ export const LogoContainer = styled("div")({
   justifyContent: "center",
   textAlign: "center",
   borderRadius: "20px", // Rounded corners for the container
-  width: "100%",
+  height: "60%",
+  width: "80%",
 });
 
 export const LogoImage = styled("img")({
   width: "100%", // Fill the container
-  //   height: "auto", // Maintain aspect ratio
-  borderRadius: "15px", // Rounded edges for the logo itself
+  height: "auto", // Maintain aspect ratio
 });
+
+export const StyledTable = styled(Table)(({ theme }) => ({
+  minWidth: 650,
+}));
+
+export const TableRowStyled = styled(TableRow)(({ theme }) => ({}));
+
+export const TableCellStyled = styled(TableCell)(({ theme }) => ({
+  fontWeight: "bold",
+  backgroundColor: Colors.backgroundMain,
+  color: Colors.primary,
+  textAlign: "center",
+  fontSize: "1rem",
+  border: `2px solid ${Colors.primary}`, // Cell borders
+}));
+
+export const TableHeaderCellStyled = styled(TableCell)(({ theme }) => ({
+  fontWeight: "bold",
+  backgroundColor: Colors.primary,
+  color: Colors.backgroundMain,
+  fontSize: "1.2rem",
+  textAlign: "center",
+
+  border: `1px solid ${Colors.primary}`, // Cell borders
+}));

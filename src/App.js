@@ -1,19 +1,19 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import MainScreen from "./MainScreen";
-import GameScreen from "./GameScreen";
+import MainScreen from "./screens/MainScreen";
+import GameScreen from "./screens/GameScreen";
+import LeaderBoardScreen from "./screens/LeaderBoardScreen";
+import GameRulesScreen from "./screens/GameRulesScreen";
 
 function App() {
   return (
     <div>
-      {/* Define all your routes here */}
       <Routes>
-        {/* Exact path to home screen */}
         <Route path="/" element={<MainScreen />} />
-
-        {/* A route for Game Screen */}
         <Route path="/game" element={<GameScreen />} />
+        <Route path="/leaderboard" element={<LeaderBoardScreen />} />
+        <Route path="/how-to-play" element={<GameRulesScreen />} />
       </Routes>
     </div>
   );
