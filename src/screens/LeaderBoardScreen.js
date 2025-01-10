@@ -97,6 +97,19 @@ function LeaderboardScreen() {
           </Box>
         </StyledTable>
       )}
+      <Box
+        style={{
+          marginTop: "20px",
+          color: Colors.primary,
+          fontSize: "1rem",
+          fontWeight: "bold",
+        }}
+      >
+        <Typography style={{ fontStyle: "italic" }}>
+          To feature on the leaderboard, <strong>login and play</strong>. Guest
+          play scores will not be featured.
+        </Typography>
+      </Box>
     </MainContainer>
   );
 }
