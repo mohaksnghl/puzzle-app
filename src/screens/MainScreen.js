@@ -164,7 +164,7 @@ const MainScreen = () => {
                 color: user ? Colors.backgroundMain : Colors.primary,
                 borderRadius: "30px",
                 cursor: "pointer",
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                // boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
                 backgroundColor: user ? Colors.primary : Colors.backgroundMain,
                 textTransform: "none",
                 margin: "20px auto",
@@ -202,8 +202,7 @@ const MainScreen = () => {
                   <Box
                     style={{
                       marginTop: "4px", // Minimal gap between main text and subtext
-                      fontSize: "0.8rem", // Smaller font for subtext
-                      color: Colors.darkGray, // Subtle text color for subtext
+                      fontSize: "0.6rem", // Smaller font for subtext
                     }}
                   >
                     Click to Logout
@@ -225,6 +224,9 @@ const MainScreen = () => {
                         width: "20px",
                         height: "20px",
                         marginRight: "10px",
+                        backgroundColor: Colors.primary,
+                        borderRadius: "50%",
+                        padding: "2px",
                       }}
                     />
                     <span>Login with Google</span>
@@ -239,18 +241,22 @@ const MainScreen = () => {
                 placeholder="Enter your name to play as Guest"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={{
+                sx={{
                   marginBottom: ".3rem",
                   padding: "10px",
                   width: "80%",
                   maxWidth: "400px",
                   fontSize: "1.2rem",
                   backgroundColor: Colors.backgroundMain,
-                  border: `2px solid ${Colors.primary}`, // Change border color for outlined button
-                  outline: "none", // Remove default browser focus outline
-                  boxShadow: "none", // Remove any box-shadow on focus
+                  border: `2px solid ${Colors.primary}`,
+                  outline: "none",
+                  boxShadow: "none",
                   borderRadius: "10px",
                   color: Colors.primary,
+                  "::placeholder": {
+                    // fontSize: "0.9rem", // Smaller font for placeholder
+                    color: "black", // Black color for placeholder
+                  },
                 }}
               />
             )}
