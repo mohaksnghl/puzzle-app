@@ -1,12 +1,6 @@
 import axios from "axios";
 
 export const getLeaderboardData = async () => {
-  // In real life, you'd do a fetch/axios call:
-  // const response = await fetch("https://example.com/leaderboard");
-  // const data = await response.json();
-  // return data;
-
-  // Mock data:
   try {
     const response = await axios.get(
       `https://3prhrhpquc.execute-api.us-east-1.amazonaws.com/leaderboard?action=leaderboard`

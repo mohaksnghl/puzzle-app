@@ -3,7 +3,6 @@ import { Typography, Box } from "@mui/material";
 import { MainContainer } from "../StyledComponents";
 import Navbar from "../components/NavBar";
 import Colors from "../colors";
-// import logo from "./assets/logo-image.png";
 
 const GameRulesScreen = ({ onBackToMain }) => {
   return (

@@ -1,4 +1,3 @@
-// Navbar.js
 import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -20,8 +19,8 @@ const Navbar = () => {
         alignItems: "center",
         marginLeft: "auto",
         padding: "0.5rem",
-        width: "100%", // Span the full width of the viewport
-        justifyContent: "flex-end", // Align buttons to the right
+        width: "100%",
+        justifyContent: "flex-end",
         backgroundColor: Colors.backgroundMain,
       }}
     >

@@ -62,8 +62,6 @@ const GameScreen = () => {
   const navigate = useNavigate();
   const { name, userId } = location.state || {};
 
-  // Redirect if there's no name or userId
-  // Fetch high score on mount
   useEffect(() => {
     const fetchHighScoreFromAPI = async () => {
       try {
@@ -81,26 +79,21 @@ const GameScreen = () => {
     if (userId) {
       fetchHighScoreFromAPI();
     } else {
-      navigate("/"); // Redirect if no userId
+      navigate("/");
     }
   }, [userId, navigate]);
 
   useEffect(() => {
     const handleBackButton = (event) => {
-      // Prevent navigation
       event.preventDefault();
       event.stopPropagation();
       window.history.pushState(null, null, window.location.href);
     };
 
-    // Add an entry to the browser history stack
     window.history.pushState(null, null, window.location.href);
-
-    // Listen for the back button event
     window.addEventListener("popstate", handleBackButton);
 
     return () => {
-      // Clean up the event listener on component unmount
       window.removeEventListener("popstate", handleBackButton);
     };
   }, []);
@@ -124,7 +117,7 @@ const GameScreen = () => {
   useEffect(() => {
     if (wordPairs.length > 0) {
       console.log(wordPairs);
-      refreshWords(); // Ensure wordPairs is loaded before calling refreshWords
+      refreshWords();
     }
   }, [wordPairs]);
 
@@ -140,16 +133,15 @@ const GameScreen = () => {
   }, [score, highScore]);
 
   useEffect(() => {
-    // Initialize the ticking sound
     if (!tickingSoundRef.current) {
       tickingSoundRef.current = new Audio(CLOCK_TICK_SOUND);
       tickingSoundRef.current.loop = true;
-      tickingSoundRef.current.volume = 0.5; // Adjust volume as needed
+      tickingSoundRef.current.volume = 0.5;
     }
 
     if (!timesUpSoundRef.current) {
       timesUpSoundRef.current = new Audio(TIMES_UP_SOUND);
-      timesUpSoundRef.current.volume = 1.0; // Full volume for time's up
+      timesUpSoundRef.current.volume = 1.0;
     }
 
     if (isGameOver) {
@@ -171,10 +163,9 @@ const GameScreen = () => {
         clearTimeout(timer);
       };
     } else if (!revealing) {
-      setIsGameOver(true); // Set gameOver to true when timer runs out
-      endGame(localStorage.getItem("sessionId"), userId, score); // Call endGame when timer reaches 0
+      setIsGameOver(true);
+      endGame(localStorage.getItem("sessionId"), userId, score);
 
-      // Stop and reset the ticking sound when the timer ends
       if (tickingSoundRef.current) {
         tickingSoundRef.current.pause();
         tickingSoundRef.current.currentTime = 0; // Reset to the start
