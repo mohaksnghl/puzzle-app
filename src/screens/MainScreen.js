@@ -164,7 +164,6 @@ const MainScreen = () => {
                 color: user ? Colors.backgroundMain : Colors.primary,
                 borderRadius: "30px",
                 cursor: "pointer",
-                // boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
                 backgroundColor: user ? Colors.primary : Colors.backgroundMain,
                 textTransform: "none",
                 margin: "20px auto",
