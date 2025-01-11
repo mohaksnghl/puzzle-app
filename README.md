@@ -43,15 +43,20 @@ npm start
 
 4. Set Up Backend:
 
-```
-Deploy the provided AWS Lambda scripts and configure the API Gateway.
-Ensure CORS is enabled for S3 and API Gateway.
-```
+- Deploy the provided AWS Lambda scripts and configure the API Gateway.
+- Ensure CORS is enabled for S3 and API Gateway.
 
 5. Environment Variables:
 
+Add your firebase keys in a .env file.
+
 ```
-Add your AWS keys and endpoints for DynamoDB, S3, and API Gateway in a .env file.
+REACT_APP_FIREBASE_API_KEY=<firebase-api-key>
+REACT_APP_FIREBASE_AUTH_DOMAIN=<firebase-auth-domain>
+REACT_APP_FIREBASE_PROJECT_ID=<firebase-project>
+REACT_APP_FIREBASE_STORAGE_BUCKET=<firebase-storage-bucket>
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<firebase-messaging-sended-id>
+REACT_APP_FIREBASE_APP_ID=<firebase-app-id>
 ```
 
 Enjoy solving word puzzles, one letter at a time! 🎉
