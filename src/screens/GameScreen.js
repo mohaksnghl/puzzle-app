@@ -168,7 +168,7 @@ const GameScreen = () => {
 
       if (tickingSoundRef.current) {
         tickingSoundRef.current.pause();
-        tickingSoundRef.current.currentTime = 0; // Reset to the start
+        tickingSoundRef.current.currentTime = 0;
       }
 
       if (timesUpSoundRef.current) {
@@ -196,7 +196,7 @@ const GameScreen = () => {
     if (currentWord1 === word1.toUpperCase()) {
       setLight1Color(Colors.green);
       if (!isSound1Played) {
-        const audio = new Audio(CORRECT_WORD_SOUND); // Adjust the path to your sound file
+        const audio = new Audio(CORRECT_WORD_SOUND);
         audio.play();
         setIsSound1Played(true);
       }
@@ -207,7 +207,7 @@ const GameScreen = () => {
     if (currentWord2 === word2.toUpperCase()) {
       setLight2Color(Colors.green);
       if (!isSound2Played) {
-        const audio = new Audio(CORRECT_WORD_SOUND); // Adjust the path to your sound file
+        const audio = new Audio(CORRECT_WORD_SOUND);
         audio.play();
         setIsSound2Played(true);
       }
@@ -220,7 +220,7 @@ const GameScreen = () => {
       currentWord2 === word2.toUpperCase() &&
       !revealing
     ) {
-      const audio = new Audio(CORRECT_ANSWER_SOUND); // Adjust the path to your sound file
+      const audio = new Audio(CORRECT_ANSWER_SOUND);
       audio.play();
       setScore((prevScore) => {
         return prevScore + 1;

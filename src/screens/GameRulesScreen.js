@@ -14,7 +14,7 @@ const GameRulesScreen = ({ onBackToMain }) => {
           textAlign: "center",
           fontWeight: "bold",
           marginBottom: "20px",
-          color: Colors.primary, // Game's primary color
+          color: Colors.primary,
         }}
       >
         How to Play
